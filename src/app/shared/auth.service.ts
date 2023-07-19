@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import {
+  Auth,
+  authState,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from '@angular/fire/auth';
 import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  currentUser$ = authState(this.fireauth);
 
-  constructor(private fireauth: AngularFireAuth, private router: Router) { }
+  constructor(private fireauth: Auth, private router: Router) { }
 
   // Login method
   login(email: string, password: string){
-    this.fireauth.signInWithEmailAndPassword(email,password).then(res => {
+    signInWithEmailAndPassword(this.fireauth, email,password).then(res => {
       localStorage.setItem('token','true')
 
       // Check if email is verified
@@ -28,7 +35,7 @@ export class AuthService {
 
   // Register method
   register(email: string, password: string){
-    this.fireauth.createUserWithEmailAndPassword(email,password).then(res => {
+    createUserWithEmailAndPassword(this.fireauth, email,password).then(res => {
       alert('Registration Successful')
       this.router.navigate(['/login'])
       this.sendEmailForVerification(res.user)
@@ -50,7 +57,7 @@ export class AuthService {
 
   // forgot password
   forgotPassword(email: string) {
-    this.fireauth.sendPasswordResetEmail(email).then(() => {
+    sendPasswordResetEmail(this.fireauth, email).then(() => {
       this.router.navigate(['/verify-email'])
     }, err => {
       alert('Something went wrong!')
