@@ -6,8 +6,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
-  User,
-  signOut
+  User
 } from '@angular/fire/auth';
 import { Router } from '@angular/router'
 
