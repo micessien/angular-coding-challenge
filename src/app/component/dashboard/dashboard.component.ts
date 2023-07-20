@@ -61,33 +61,6 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  resetForm() {
-    this.libelle = ''
-    this.superficie = 0
-    this.placer = ''
-    this.longitude = ''
-    this.latitude = ''
-  }
-
-  addEntrepot() {
-    if (this.libelle == '' || this.superficie == 0 || this.placer == '' || this.longitude == '' || this.latitude == '') {
-      return alert('Fill all input fields')
-    }
-    
-    this.entrepotObj.libelle = this.libelle
-    this.entrepotObj.superficie = this.superficie
-    this.entrepotObj.placer = this.placer
-    this.entrepotObj.longitude = this.longitude
-    this.entrepotObj.latitude = this.latitude
-
-    this.data.addEntrepot(this.entrepotObj)
-    return this.resetForm()
-  }
-
-  updateEntrepot() {
-
-  }
-
   deleteEntrepot(entrepot: Entrepot, id: string) {
     if (window.confirm('Are you sure you want to delete '+entrepot.libelle+' ?')) {
       this.data.deleteEntrepot(id)
