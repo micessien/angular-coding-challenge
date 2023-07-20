@@ -5,6 +5,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
+  User,
+  signOut
 } from '@angular/fire/auth';
 import { Router } from '@angular/router'
 
@@ -16,13 +19,19 @@ export class AuthService {
 
   constructor(private fireauth: Auth, private router: Router) { }
 
+  // get User
+  // get Authenticated user from firebase
+  getAuthFire(){
+    return this.fireauth.currentUser;
+  }
+
   // Login method
   login(email: string, password: string){
     signInWithEmailAndPassword(this.fireauth, email,password).then(res => {
-      localStorage.setItem('token','true')
-
+      
       // Check if email is verified
       if (res.user?.emailVerified == true) {
+        localStorage.setItem('token','true')
         this.router.navigate(['/dashboard'])
       }else{
         this.router.navigate(['/verify-email'])
@@ -37,8 +46,8 @@ export class AuthService {
   register(email: string, password: string){
     createUserWithEmailAndPassword(this.fireauth, email,password).then(res => {
       alert('Registration Successful')
+      this.sendEmailForVerification()
       this.router.navigate(['/login'])
-      this.sendEmailForVerification(res.user)
     }, err => {
       alert(err.message)
       this.router.navigate(['/register'])
@@ -65,10 +74,11 @@ export class AuthService {
   }
 
   // Send email verification
-  sendEmailForVerification(user: any) {
-    user.sendEmailVerification().then((res: any) => {
-      this.router.navigate(['/verify-email'])
-    }, (err: any) => {
+  sendEmailForVerification() {
+    sendEmailVerification(this.fireauth.currentUser as User).then(() => {
+      // this.router.navigate(['/verify-email'])
+      return
+    }, err => {
       alert('Something went wrong. Not able to send mail to your email.')
     })
   }
