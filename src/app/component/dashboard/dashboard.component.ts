@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Student } from 'src/app/model/student';
+import { Entrepot } from 'src/app/model/entrepot';
 import { AuthService } from 'src/app/shared/auth.service';
 import { DataService } from 'src/app/shared/data.service';
-type StudentList = {
+type EntrepotList = {
   id: string,
-  first_name: string,
-  last_name: string,
-  email: string,
-  mobile: string,
+  libelle: string,
+  superficie: number,
+  placer: string,
+  longitude: string,
+  latitude: string,
 }
 
 @Component({
@@ -17,68 +18,72 @@ type StudentList = {
 })
 export class DashboardComponent implements OnInit {
 
-  studentsList : StudentList[] = []
-  studentObj : Student = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    mobile: ''
+  entrepotsList : EntrepotList[] = []
+  entrepotObj : Entrepot = {
+    libelle: '',
+    superficie: 0,
+    placer: '',
+    longitude: '',
+    latitude: ''
   }
-  first_name: string = ''
-  last_name: string = ''
-  email: string = ''
-  mobile: string = ''
+  libelle: string = ''
+  superficie: number = 0
+  placer: string = ''
+  longitude: string = ''
+  latitude: string = ''
 
   constructor(private auth: AuthService, private data: DataService) {}
 
   ngOnInit(): void {
-    this.getAllStudents()
+    this.getAllEntrepots()
   }
 
   // register() {
   //   this.auth.logout()
   // }
 
-  getAllStudents() {
-    this.data.getAllStudents().subscribe(res => {
+  getAllEntrepots() {
+    this.data.getAllEntrepots().subscribe(res => {
       console.log('Data------', res)
-      this.studentsList = res.map((e: any) => {
+      this.entrepotsList = res.map((e: any) => {
         return e
       })
 
     }, err => {
-      alert('Error while fetching student data')
+      alert('Error while fetching entrepot data')
     })
   }
 
   resetForm() {
-    this.first_name = ''
-    this.last_name = ''
-    this.email = ''
-    this.mobile = ''
+    this.libelle = ''
+    this.superficie = 0
+    this.placer = ''
+    this.longitude = ''
+    this.latitude = ''
   }
 
-  addStudent() {
-    if (this.first_name == '' || this.last_name == '' || this.email == '' || this.mobile == '') {
-      alert('Fill all input fields')
+  addEntrepot() {
+    if (this.libelle == '' || this.superficie == 0 || this.placer == '' || this.longitude == '' || this.latitude == '') {
+      return alert('Fill all input fields')
     }
     
-    this.studentObj.email = this.email
-    this.studentObj.mobile = this.mobile
-    this.studentObj.first_name = this.first_name
-    this.studentObj.last_name = this.last_name
+    this.entrepotObj.libelle = this.libelle
+    this.entrepotObj.superficie = this.superficie
+    this.entrepotObj.placer = this.placer
+    this.entrepotObj.longitude = this.longitude
+    this.entrepotObj.latitude = this.latitude
 
-    this.data.addStudent(this.studentObj)
-    this.resetForm()
+    this.data.addEntrepot(this.entrepotObj)
+    return this.resetForm()
   }
 
-  updateStudent() {
+  updateEntrepot() {
 
   }
 
-  deleteStudent(student: Student, id: string) {
-    if (window.confirm('Are you sure you want to delete '+student.first_name+' '+student.last_name+' ?')) {
-      this.data.deleteStudent(id)
+  deleteEntrepot(entrepot: Entrepot, id: string) {
+    if (window.confirm('Are you sure you want to delete '+entrepot.libelle+' ?')) {
+      this.data.deleteEntrepot(id)
     }
   }
 

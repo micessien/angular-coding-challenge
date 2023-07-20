@@ -3,50 +3,52 @@
         <div class="col-md-4 mt-5">
             <div class="card border-0 shadow p-3">
                 <div class="form-floating mb-3">
-                    <h5 class="text-center text-warning">Add Student</h5>
+                    <h5 class="text-center text-warning">Add Entrepot</h5>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="first_name">
-                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="libelle" name="libelle" [(ngModel)]="libelle">
+                    <label for="libelle">Libelle</label>
                 </div>
                 <div class="form-floating mb-3 ">
-                    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="last_name">
-                    <label for="lastName">Last name</label>
+                    <input type="number" class="form-control" id="superficie" name="superficie" [(ngModel)]="superficie">
+                    <label for="superficie">Superficie (M<sup>2</sup>)</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email">
-                    <label for="email">Email address</label>
+                    <input type="text" class="form-control" id="placer" name="placer" [(ngModel)]="placer">
+                    <label for="placer">Placer</label>
                 </div>
                 <div class="form-floating mb-3 ">
-                    <input type="text" class="form-control" id="mobile" name="mobile" [(ngModel)]="mobile">
-                    <label for="mobile">Mocile</label>
+                    <input type="text" class="form-control" id="longitude" name="longitude" [(ngModel)]="longitude">
+                    <label for="longitude">Longitude</label>
+                </div>
+                <div class="form-floating mb-3 ">
+                    <input type="text" class="form-control" id="latitude" name="latitude" [(ngModel)]="latitude">
+                    <label for="latitude">Latitude</label>
                 </div>
     
-                <button type="button" class="btn btn-outline-success" (click)="addStudent()">Add Student</button>
+                <button type="button" class="btn btn-info" (click)="addEntrepot()">Enregistrer</button>
             </div>
         </div>
         <div class="col-md-8 mt-5">
-            <h5 class="text-danger">Student List</h5>
+            <h5 class="text-danger">Entrepot List</h5>
             <div class="card p-3 shadow">
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">First name</th>
-                                <th scope="col">Last name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Mobile</th>
+                                <th scope="col">Libelle</th>
+                                <th scope="col">Superficie (M<sup>2</sup>)</th>
+                                <th scope="col">placer</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let student of studentsList">
-                                <th>{{student.first_name}}</th>
-                                <td>{{student.last_name}}</td>
-                                <td>{{student.email}}</td>
-                                <td>@{{student.mobile}}</td>
+                            <tr *ngFor="let entrepot of entrepotsList">
+                                <td>{{entrepot.libelle}}</td>
+                                <td>{{entrepot.superficie}} (m2)</td>
+                                <td>{{entrepot.placer}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-danger" (click)="deleteStudent(student, student.id)">Delete</button>
+                                    <button type="button" class="btn btn-outline-danger" (click)="deleteEntrepot(entrepot, entrepot.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>

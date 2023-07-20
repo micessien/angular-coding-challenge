@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, updateDoc } from '@angular/fire/firestore'
-import { Student } from '../model/student';
+import { Entrepot } from '../model/entrepot';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private dbPath = 'students';
+  private dbPath = 'entrepots';
 
   constructor(private firestore: Firestore) { }
 
-  // Add Student
-  addStudent(student: Student) {
+  // Add Entrepot
+  addEntrepot(entrepot: Entrepot) {
     const collectionInstance = collection(this.firestore, this.dbPath)
-    return addDoc(collectionInstance, student)
+    return addDoc(collectionInstance, entrepot)
   }
 
-  // get all student
-  getAllStudents() {
+  // get all Entrepot
+  getAllEntrepots() {
     const collectionInstance = collection(this.firestore, this.dbPath)
     return collectionData(collectionInstance, {idField: 'id'})
   }
 
-  // delete student
-  deleteStudent(id: string) {
+  // delete Entrepot
+  deleteEntrepot(id: string) {
     const docInstance = doc(this.firestore, this.dbPath, id)
     return deleteDoc(docInstance)
   }
 
-  // update student
-  updateStudent(id: string, updateDate: any) {
+  // update entrepot
+  updateEntrepot(id: string, updateDate: any) {
     const docInstance = doc(this.firestore, this.dbPath, id)
     return updateDoc(docInstance, updateDate)
   }
