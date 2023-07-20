@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
@@ -10,11 +11,14 @@ export class RegisterComponent implements OnInit {
   email: string = ''
   password: string = ''
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    if (localStorage.getItem('token') === 'true') {
+      this.router.navigate(['/dashboard'])
+    }
   }
 
   register() {
