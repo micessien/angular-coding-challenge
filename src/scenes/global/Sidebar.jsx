@@ -53,11 +53,11 @@ const SideBar = () => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .ps-menu-button:hover": {
-          color: "#868dfb !important",
+          color: `${colors.orangeAccent[400]}  !important`,
           backgroundColor: "transparent !important",
         },
         "& .ps-menu-button.ps-active": {
-          color: "#6870fa !important",
+          color: `${colors.orangeAccent[500]} !important`,
           backgroundColor: "transparent !important",
         },
       }}
@@ -112,7 +112,7 @@ const SideBar = () => {
                 >
                   Micael Die
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography variant="h5" color={colors.orangeAccent[500]}>
                   Admin
                 </Typography>
               </Box>
