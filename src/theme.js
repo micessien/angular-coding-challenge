@@ -152,7 +152,7 @@ export const themeSettings = (mode) => {
       ...(mode === "dark"
         ? {
             primary: { main: colors.primary[500] },
-            secondary: { main: colors.greenAccent[500] },
+            secondary: { main: colors.orangeAccent[500] },
             neutral: {
               dark: colors.grey[700],
               main: colors.grey[500],
@@ -162,7 +162,7 @@ export const themeSettings = (mode) => {
           }
         : {
             primary: { main: colors.primary[100] },
-            secondary: { main: colors.greenAccent[500] },
+            secondary: { main: colors.orangeAccent[500] },
             neutral: {
               dark: colors.grey[700],
               main: colors.grey[500],
@@ -171,6 +171,7 @@ export const themeSettings = (mode) => {
             background: { default: "#fcfcfc" },
           }),
     },
+    components: {},
     typography: {
       fontFamily: ["Source Sans 3", "sans-serif"].join(","),
       fontSize: 12,

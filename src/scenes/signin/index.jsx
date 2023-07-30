@@ -1,11 +1,11 @@
 import React from "react";
+import { tokens } from "../../theme";
 // MUI Stuff
+import useTheme from "@mui/material/styles/useTheme";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -33,6 +33,9 @@ function Copyright(props) {
 }
 
 const SignIn = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -75,7 +78,7 @@ const SignIn = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Connexion
           </Typography>
           <Box
             component="form"
@@ -103,27 +106,31 @@ const SignIn = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              color="secondary"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link
+                  href="#"
+                  variant="body2"
+                  color={colors.grey[300]}
+                  sx={{ textDecoration: "none " }}
+                >
+                  Vous avez oublier votre mot de passe?{" "}
+                  <Typography
+                    variant="body1"
+                    component="span"
+                    color={colors.orangeAccent[300]}
+                  >
+                    Reinitialiser votre mot de passe
+                  </Typography>
                 </Link>
               </Grid>
             </Grid>

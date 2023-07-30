@@ -1,7 +1,9 @@
 import React from "react";
+import { tokens } from "../../theme";
 import { Formik } from "formik";
 import * as yup from "yup";
 // MUI Stuff
+import useTheme from "@mui/material/styles/useTheme";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -34,6 +36,8 @@ const userSchema = yup.object().shape({
 });
 
 const Form = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
@@ -146,7 +150,15 @@ const Form = () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="submit"
+                color="secondary"
+                sx={{
+                  backgroundColor: colors.orangeAccent[500],
+                  "&:hover": { backgroundColor: colors.orangeAccent[400] },
+                }}
+                variant="contained"
+              >
                 Create New User
               </Button>
             </Box>
