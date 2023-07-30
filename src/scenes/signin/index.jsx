@@ -13,24 +13,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 // MUI Icons
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://ricva.com/">
-        RICVA App
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+// Components
+import Copyright from "../../components/Copyright";
 
 const SignIn = () => {
   const theme = useTheme();
