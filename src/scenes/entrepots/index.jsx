@@ -34,7 +34,13 @@ const Entrepots = () => {
 
   return (
     <Box m="20px">
-      <Header title="ENTREPOTS" subtitle="Historique d'entrepots" />
+      <Header
+        title="ENTREPOTS"
+        subtitle="Historique d'entrepots"
+        isLink={true}
+        linkText={"Creer un entrepot"}
+        to={"/create-entreprot"}
+      />
       <Box
         m="40px 0 0 0"
         sx={{
@@ -42,7 +48,7 @@ const Entrepots = () => {
           "& .MuiDataGrid-cell": { borderBottom: "none" },
           "& .name-column--cell": { color: colors.orangeAccent[300] },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.orangeAccent[800],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -50,10 +56,10 @@ const Entrepots = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.orangeAccent[800],
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.blueAccent[700]} !important`,
+            color: `${colors.orangeAccent[800]} !important`,
           },
         }}
       >
