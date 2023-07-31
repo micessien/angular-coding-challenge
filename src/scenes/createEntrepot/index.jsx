@@ -5,11 +5,15 @@ import * as yup from "yup";
 // MUI Stuff
 import useTheme from "@mui/material/styles/useTheme";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
 // Components
 import Header from "../../components/Header";
+import BasicAlert from "../global/BasicAlert";
+// Actions
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const initialValues = {
   libelle: "",
@@ -32,9 +36,27 @@ const CreateEntrepot = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [loading, setLoading] = React.useState(false);
+  const [successMg, setSuccessMg] = React.useState(null);
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     console.log(values);
+    setLoading(true);
+
+    try {
+      await addDoc(collection(db, "entrepots"), {
+        libelle: values.libelle,
+        superficie: values.superficie,
+        placer: values.placer,
+        latitude: values.latitude,
+        longitude: values.longitude,
+      });
+      setLoading(false);
+      setSuccessMg("Entrepôts ajoutés avec succès!");
+    } catch (error) {
+      alert("Something went wrong! ", error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,10 +151,13 @@ const CreateEntrepot = () => {
                 helperText={touched.latitude && errors.latitude}
                 sx={{ gridColumn: "span 2" }}
               />
+
+              {successMg && <BasicAlert type="success" message={successMg} />}
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button
+              <LoadingButton
                 type="submit"
+                loading={loading}
                 color="secondary"
                 sx={{
                   backgroundColor: colors.orangeAccent[500],
@@ -141,7 +166,7 @@ const CreateEntrepot = () => {
                 variant="contained"
               >
                 Creer un nouvel entrepot
-              </Button>
+              </LoadingButton>
             </Box>
           </form>
         )}
