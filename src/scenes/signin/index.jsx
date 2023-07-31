@@ -59,15 +59,15 @@ const SignIn = () => {
     setLoading(true);
     signInWithEmailAndPassword(auth, values.email, values.password).then(
       (res) => {
-        console.log("User details-----", res.user);
+        // console.log("User details-----", res.user);
         // Check if email is verified
         if (res.user?.emailVerified === true) {
-          console.log("Login Successfully! email verified!");
+          // console.log("Login Successfully! email verified!");
           saveUserData(res.user);
           setLoading(false);
           navigate("/");
         } else {
-          console.log("Login Successfully! email not verified!");
+          // console.log("Login Successfully! email not verified!");
           setLoading(false);
           navigate("/verify-email");
         }

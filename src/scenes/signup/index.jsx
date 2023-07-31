@@ -84,7 +84,7 @@ const SignUp = () => {
           "Inscription réussie, veuillez vérifier votre boîte de réception pour valider votre adresse e-mail"
         );
         sendEmailVerification(res.user);
-        navigate("/login");
+        navigate("/signin");
       },
       (err) => {
         setLoading(false);
