@@ -1,3 +1,4 @@
+import React from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -12,6 +13,7 @@ import FAQ from "./scenes/faq";
 import Signin from "./scenes/signin";
 import Signup from "./scenes/signup";
 import VerifyEmail from "./scenes/verifyEmail";
+import RequireAuth from "./hooks/RequireAuth";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -27,7 +29,13 @@ function App() {
             <Route exact path="/verify-email" element={<VerifyEmail />} />
 
             {/* Dashboard Routes */}
-            <Route element={<DashboardLayout />}>
+            <Route
+              element={
+                <RequireAuth>
+                  <DashboardLayout />
+                </RequireAuth>
+              }
+            >
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/entrepots" element={<Entrepots />} />
