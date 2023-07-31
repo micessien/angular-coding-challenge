@@ -11,7 +11,14 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
 // MUI Icons
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // Components
 import Copyright from "../../components/Copyright";
@@ -19,6 +26,18 @@ import Copyright from "../../components/Copyright";
 const SignUp = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseDownConfirmPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -121,31 +140,69 @@ const SignUp = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               type="email"
               name="email"
               autoComplete="email"
             />
-            <TextField
+
+            <FormControl
               margin="normal"
-              required
               fullWidth
+              required
+              variant="outlined"
               name="password"
-              label="Password"
-              type="password"
-              id="password"
               autoComplete="current-password"
-            />
-            <TextField
+            >
+              <InputLabel htmlFor="password">Mot de passe</InputLabel>
+              <OutlinedInput
+                id="password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Mot de passe"
+              />
+            </FormControl>
+
+            <FormControl
               margin="normal"
-              required
               fullWidth
+              required
+              variant="outlined"
               name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
               autoComplete="current-confirmPassword"
-            />
+            >
+              <InputLabel htmlFor="confirmPassword">
+                Confirmer Mot de passe
+              </InputLabel>
+              <OutlinedInput
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle confirmPassword visibility"
+                      onClick={handleClickShowConfirmPassword}
+                      onMouseDown={handleMouseDownConfirmPassword}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Confirmer Mot de passe"
+              />
+            </FormControl>
 
             <Button
               type="submit"
