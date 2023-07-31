@@ -42,12 +42,47 @@ const SignIn = () => {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
+          backgroundColor:
+            theme.palette.mode === "light"
+              ? theme.palette.grey[500]
+              : theme.palette.grey[900],
         }}
-      />
+      >
+        <Box
+          sx={{
+            my: 8,
+            mx: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h1"
+            sx={{
+              color: "#ffffff",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+              fontWeight: "bold",
+            }}
+            mt={40}
+          >
+            BIENVENUE SUR RICVA
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "#ffffff",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+              fontWeight: 500,
+            }}
+            fontSize={25}
+            maxWidth="70%"
+          >
+            RICVA est une plateforme de suivi et de gestion du secteur agricole,
+            de la production a la vente en passant par le financement.
+          </Typography>
+        </Box>
+      </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
