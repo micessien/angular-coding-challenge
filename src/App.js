@@ -11,6 +11,7 @@ import Form from "./scenes/form";
 import FAQ from "./scenes/faq";
 import Signin from "./scenes/signin";
 import Signup from "./scenes/signup";
+import VerifyEmail from "./scenes/verifyEmail";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route exact path="/signin" element={<Signin />} />
             <Route exact path="/signup" element={<Signup />} />
+            <Route exact path="/verify-email" element={<VerifyEmail />} />
 
             {/* Dashboard Routes */}
             <Route element={<DashboardLayout />}>

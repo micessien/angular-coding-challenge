@@ -2,10 +2,11 @@ import React from "react";
 import { tokens } from "../../theme";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 // MUI Stuff
 import useTheme from "@mui/material/styles/useTheme";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -25,6 +26,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // Components
 import Copyright from "../../components/Copyright";
+// Actions
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
+import { saveUserData } from "../../data/actions/auth";
 
 const initialValues = {
   email: "",
@@ -43,12 +48,35 @@ const userSchema = yup.object().shape({
 const SignIn = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleFormSubmit = (values) => {
-    console.log(values);
+    // console.log(values);
+    setLoading(true);
+    signInWithEmailAndPassword(auth, values.email, values.password).then(
+      (res) => {
+        console.log("User details-----", res.user);
+        // Check if email is verified
+        if (res.user?.emailVerified === true) {
+          console.log("Login Successfully! email verified!");
+          saveUserData(res.user);
+          setLoading(false);
+          navigate("/");
+        } else {
+          console.log("Login Successfully! email not verified!");
+          setLoading(false);
+          navigate("/verify-email");
+        }
+      },
+      (err) => {
+        setLoading(false);
+        alert(err.message);
+      }
+    );
   };
 
   return (
@@ -186,15 +214,16 @@ const SignIn = () => {
                   )}
                 </FormControl>
 
-                <Button
+                <LoadingButton
                   type="submit"
                   fullWidth
+                  loading={loading}
                   variant="contained"
                   color="secondary"
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Sign In
-                </Button>
+                </LoadingButton>
                 <Grid container>
                   <Grid item xs>
                     <Link

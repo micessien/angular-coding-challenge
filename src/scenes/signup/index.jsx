@@ -2,10 +2,11 @@ import React from "react";
 import { tokens } from "../../theme";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 // MUI Stuff
 import useTheme from "@mui/material/styles/useTheme";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -25,6 +26,12 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // Components
 import Copyright from "../../components/Copyright";
+// Actions
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { auth } from "../../firebase";
 
 const initialValues = {
   name: "",
@@ -57,6 +64,8 @@ const userSchema = yup.object().shape({
 const SignUp = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
@@ -66,6 +75,22 @@ const SignUp = () => {
 
   const handleFormSubmit = (values) => {
     console.log(values);
+    setLoading(true);
+    createUserWithEmailAndPassword(auth, values.email, values.password).then(
+      (res) => {
+        // console.log("User details-----", res);
+        setLoading(false);
+        alert(
+          "Inscription réussie, veuillez vérifier votre boîte de réception pour valider votre adresse e-mail"
+        );
+        sendEmailVerification(res.user);
+        navigate("/login");
+      },
+      (err) => {
+        setLoading(false);
+        alert(err.message);
+      }
+    );
   };
 
   return (
@@ -263,15 +288,16 @@ const SignUp = () => {
                   )}
                 </FormControl>
 
-                <Button
+                <LoadingButton
                   type="submit"
                   fullWidth
+                  loading={loading}
                   variant="contained"
                   color="secondary"
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Creer
-                </Button>
+                </LoadingButton>
                 <Grid container>
                   <Grid item xs>
                     <Link

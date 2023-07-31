@@ -1,3 +1,5 @@
+import { getAuth } from "firebase/auth";
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
@@ -11,4 +13,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+// eslint-disable-next-line no-unused-vars
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth();
