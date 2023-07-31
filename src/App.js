@@ -13,6 +13,8 @@ import FAQ from "./scenes/faq";
 import Signin from "./scenes/signin";
 import Signup from "./scenes/signup";
 import VerifyEmail from "./scenes/verifyEmail";
+import CreateEntrepot from "./scenes/createEntrepot";
+// Hooks
 import RequireAuth from "./hooks/RequireAuth";
 
 function App() {
@@ -39,6 +41,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/entrepots" element={<Entrepots />} />
+              <Route path="/create-entrepot" element={<CreateEntrepot />} />
               <Route path="/form" element={<Form />} />
               <Route path="/faq" element={<FAQ />} />
             </Route>

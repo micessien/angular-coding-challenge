@@ -39,7 +39,7 @@ const Entrepots = () => {
         subtitle="Historique d'entrepots"
         isLink={true}
         linkText={"Creer un entrepot"}
-        to={"/create-entreprot"}
+        to={"/create-entrepot"}
       />
       <Box
         m="40px 0 0 0"
