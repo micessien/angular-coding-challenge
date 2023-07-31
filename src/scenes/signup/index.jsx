@@ -1,5 +1,7 @@
 import React from "react";
 import { tokens } from "../../theme";
+import { Formik } from "formik";
+import * as yup from "yup";
 // MUI Stuff
 import useTheme from "@mui/material/styles/useTheme";
 import Avatar from "@mui/material/Avatar";
@@ -16,12 +18,41 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
 // MUI Icons
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 // Components
 import Copyright from "../../components/Copyright";
+
+const initialValues = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+// Validation
+const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const userSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(3, "doit comporter au moins 3 caractères")
+    .required("requis"),
+  email: yup.string().matches(emailRegExp, "email invalide").required("requis"),
+  password: yup
+    .string()
+    .min(6, "doit comporter au moins 6 caractères")
+    .required("requis"),
+  confirmPassword: yup
+    .string()
+    .min(6, "doit comporter au moins 6 caractères")
+    .required("requis")
+    .oneOf(
+      [yup.ref("password"), null],
+      "Les mots de passe doivent correspondre"
+    ),
+});
 
 const SignUp = () => {
   const theme = useTheme();
@@ -32,20 +63,9 @@ const SignUp = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-  const handleMouseDownConfirmPassword = (event) => {
-    event.preventDefault();
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleFormSubmit = (values) => {
+    console.log(values);
   };
 
   return (
@@ -118,122 +138,163 @@ const SignUp = () => {
           <Typography component="h1" variant="h5">
             Creer mon compte
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
+
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={initialValues}
+            validationSchema={userSchema}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="name"
-              label="Nom & Prenom"
-              name="name"
-              type="text"
-              autoComplete="name"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              type="email"
-              name="email"
-              autoComplete="email"
-            />
+            {({
+              values,
+              errors,
+              touched,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+            }) => (
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Nom & Prenom"
+                  type="text"
+                  autoComplete="name"
+                  autoFocus
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.name}
+                  name="name"
+                  error={!!touched.name && !!errors.name}
+                  helperText={touched.name && errors.name}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  type="email"
+                  autoComplete="email"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.email}
+                  name="email"
+                  error={!!touched.email && !!errors.email}
+                  helperText={touched.email && errors.email}
+                />
 
-            <FormControl
-              margin="normal"
-              fullWidth
-              required
-              variant="outlined"
-              name="password"
-              autoComplete="current-password"
-            >
-              <InputLabel htmlFor="password">Mot de passe</InputLabel>
-              <OutlinedInput
-                id="password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Mot de passe"
-              />
-            </FormControl>
-
-            <FormControl
-              margin="normal"
-              fullWidth
-              required
-              variant="outlined"
-              name="confirmPassword"
-              autoComplete="current-confirmPassword"
-            >
-              <InputLabel htmlFor="confirmPassword">
-                Confirmer Mot de passe
-              </InputLabel>
-              <OutlinedInput
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle confirmPassword visibility"
-                      onClick={handleClickShowConfirmPassword}
-                      onMouseDown={handleMouseDownConfirmPassword}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Confirmer Mot de passe"
-              />
-            </FormControl>
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Creer
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link
-                  href="/signin"
-                  variant="body2"
-                  color={colors.grey[300]}
-                  sx={{ textDecoration: "none " }}
+                <FormControl
+                  margin="normal"
+                  fullWidth
+                  required
+                  variant="outlined"
+                  autoComplete="current-password"
+                  error={!!touched.password && !!errors.password}
                 >
-                  Deja un compte ?{" "}
-                  <Typography
-                    variant="body1"
-                    component="span"
-                    color={colors.orangeAccent[300]}
-                  >
-                    Connexion
-                  </Typography>
-                </Link>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5 }} />
-          </Box>
+                  <InputLabel htmlFor="password">Mot de passe</InputLabel>
+                  <OutlinedInput
+                    id="password"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.password}
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Mot de passe"
+                  />
+                  {touched.password && (
+                    <FormHelperText id="password">
+                      {errors.password}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl
+                  margin="normal"
+                  fullWidth
+                  required
+                  variant="outlined"
+                  autoComplete="current-confirmPassword"
+                  error={!!touched.confirmPassword && !!errors.confirmPassword}
+                >
+                  <InputLabel htmlFor="confirmPassword">
+                    Confirmer Mot de passe
+                  </InputLabel>
+                  <OutlinedInput
+                    id="confirmPassword"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.confirmPassword}
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle confirmPassword visibility"
+                          onClick={handleClickShowConfirmPassword}
+                          edge="end"
+                        >
+                          {showConfirmPassword ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Confirmer Mot de passe"
+                  />
+                  {touched.confirmPassword && (
+                    <FormHelperText id="confirmPassword">
+                      {errors.confirmPassword}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Creer
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link
+                      href="/signin"
+                      variant="body2"
+                      color={colors.grey[300]}
+                      sx={{ textDecoration: "none " }}
+                    >
+                      Deja un compte ?{" "}
+                      <Typography
+                        variant="body1"
+                        component="span"
+                        color={colors.orangeAccent[300]}
+                      >
+                        Connexion
+                      </Typography>
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
+            )}
+          </Formik>
         </Box>
       </Grid>
     </Grid>
