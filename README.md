@@ -1,27 +1,32 @@
-# AngularCodingChallenge
+## React Coding Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
+### Features available
 
-## Development server
+-   Creation de compte `<END_POINT>/signup`
+-   Connexion `<END_POINT>/signin`
+-   Email verification
+-   CRUD Entrepots
+-   Change mode coleur du <strong>Dashboard</strong>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Requirements
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+-   Node >= 18.12.1
+-   NPM or YARN installer
 
-## Build
+### Run the App
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+-   Installer les dépendances `npm install` or `yarn install`
+-   Créez le fichier `.env` et définissez ces variables à partir de Firebase (SDK setup and configuration) :
+```json
+REACT_APP_FIRE_APIKEY= 
+REACT_APP_FIRE_AUTHDOMAIN=
+REACT_APP_FIRE_PROJECTID=
+REACT_APP_FIRE_STORAGEBUCKET= 
+REACT_APP_FIRE_MESSAGINGSENDERID= 
+REACT_APP_FIRE_APPID=
+```
+-   Et lancez le serveur local `npm start` or `yarn start`
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+**_NB:_** _Pour ce projet je n'ai pas ignore le fichier .env donc toutes les configs sont a l'interieure_
