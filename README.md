@@ -19,7 +19,7 @@
 
 -   Installer les dépendances `npm install` or `yarn install`
 -   Créez le fichier `.env` et définissez ces variables à partir de Firebase (SDK setup and configuration) :
-```json
+```text
 REACT_APP_FIRE_APIKEY= 
 REACT_APP_FIRE_AUTHDOMAIN=
 REACT_APP_FIRE_PROJECTID=
