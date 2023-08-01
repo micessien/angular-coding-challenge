@@ -31,7 +31,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 const initialValues = {
   name: "",
@@ -74,7 +75,7 @@ const SignUp = () => {
     setShowConfirmPassword((show) => !show);
 
   const handleFormSubmit = (values) => {
-    console.log(values);
+    // console.log(values);
     setLoading(true);
     createUserWithEmailAndPassword(auth, values.email, values.password).then(
       (res) => {
@@ -84,6 +85,11 @@ const SignUp = () => {
           "Inscription réussie, veuillez vérifier votre boîte de réception pour valider votre adresse e-mail"
         );
         sendEmailVerification(res.user);
+        setDoc(doc(db, "users", res.user.uid), {
+          name: values.name,
+          role: "customer",
+          timeStamp: serverTimestamp(),
+        });
         navigate("/signin");
       },
       (err) => {

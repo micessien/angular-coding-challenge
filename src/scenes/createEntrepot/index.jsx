@@ -12,7 +12,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import BasicAlert from "../global/BasicAlert";
 // Actions
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const initialValues = {
@@ -40,7 +40,7 @@ const CreateEntrepot = () => {
   const [successMg, setSuccessMg] = React.useState(null);
 
   const handleFormSubmit = async (values) => {
-    console.log(values);
+    // console.log(values);
     setLoading(true);
 
     try {
@@ -50,6 +50,7 @@ const CreateEntrepot = () => {
         placer: values.placer,
         latitude: values.latitude,
         longitude: values.longitude,
+        timeStamp: serverTimestamp(),
       });
       setLoading(false);
       setSuccessMg("Entrepôts ajoutés avec succès!");
