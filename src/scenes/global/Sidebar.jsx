@@ -15,6 +15,8 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import FactoryIcon from "@mui/icons-material/Factory";
+// Actions
+import { getUserData } from "../../data/actions/auth";
 
 // MenuItem component
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -38,6 +40,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const currentUser = getUserData();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
@@ -110,7 +113,7 @@ const SideBar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Micael Die
+                  @{currentUser?.email.split("@")[0]}
                 </Typography>
                 <Typography variant="h5" color={colors.orangeAccent[500]}>
                   Admin
